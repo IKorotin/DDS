@@ -1,0 +1,46 @@
+{% extends "cash_flow/base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-danger text-white">
+        <h2 class="mb-0">Удаление записи</h2>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="alert alert-warning">
+                <h4 class="alert-heading">Внимание!</h4>
+                <p>Вы уверены, что хотите удалить эту запись?</p>
+                <hr>
+                <div class="mb-2">
+                    <strong>Дата:</strong> {{ cashflow.date|date:"d.m.Y" }}
+                </div>
+                <div class="mb-2">
+                    <strong>Тип:</strong> {{ cashflow.type }}
+                </div>
+                <div class="mb-2">
+                    <strong>Категория:</strong> {{ cashflow.category }}
+                </div>
+                <div class="mb-2">
+                    <strong>Сумма:</strong> {{ cashflow.amount }} ₽
+                </div>
+                {% if cashflow.comment %}
+                <div class="mb-2">
+                    <strong>Комментарий:</strong> {{ cashflow.comment }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{% url 'index' %}" class="btn btn-secondary me-md-2">
+                    <i class="bi bi-x-circle"></i> Отмена
+                </a>
+                <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-trash"></i> Удалить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

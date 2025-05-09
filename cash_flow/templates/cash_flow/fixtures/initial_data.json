@@ -1,0 +1,93 @@
+[
+    {
+        "model": "cash_flow.status",
+        "pk": 1,
+        "fields": {
+            "name": "Бизнес"
+        }
+    },
+    {
+        "model": "cash_flow.status",
+        "pk": 2,
+        "fields": {
+            "name": "Личное"
+        }
+    },
+    {
+        "model": "cash_flow.status",
+        "pk": 3,
+        "fields": {
+            "name": "Налог"
+        }
+    },
+    {
+        "model": "cash_flow.type",
+        "pk": 1,
+        "fields": {
+            "name": "Пополнение"
+        }
+    },
+    {
+        "model": "cash_flow.type",
+        "pk": 2,
+        "fields": {
+            "name": "Списание"
+        }
+    },
+    {
+        "model": "cash_flow.category",
+        "pk": 1,
+        "fields": {
+            "name": "Инфраструктура",
+            "type": 2
+        }
+    },
+    {
+        "model": "cash_flow.category",
+        "pk": 2,
+        "fields": {
+            "name": "Маркетинг",
+            "type": 2
+        }
+    },
+    {
+        "model": "cash_flow.category",
+        "pk": 3,
+        "fields": {
+            "name": "Доходы",
+            "type": 1
+        }
+    },
+    {
+        "model": "cash_flow.subcategory",
+        "pk": 1,
+        "fields": {
+            "name": "VPS",
+            "category": 1
+        }
+    },
+    {
+        "model": "cash_flow.subcategory",
+        "pk": 2,
+        "fields": {
+            "name": "Proxy",
+            "category": 1
+        }
+    },
+    {
+        "model": "cash_flow.subcategory",
+        "pk": 3,
+        "fields": {
+            "name": "Farpost",
+            "category": 2
+        }
+    },
+    {
+        "model": "cash_flow.subcategory",
+        "pk": 4,
+        "fields": {
+            "name": "Avito",
+            "category": 2
+        }
+    }
+]

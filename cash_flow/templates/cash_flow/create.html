@@ -1,0 +1,131 @@
+{% extends "cash_flow/base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Создать новую запись</h2>
+    </div>
+    <div class="card-body">
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <!-- Дата -->
+            <div class="mb-3">
+                <label for="{{ form.date.id_for_label }}" class="form-label">
+                    Дата операции <span class="text-danger">*</span>
+                </label>
+                {{ form.date }}
+            </div>
+            
+            <!-- Статус (выпадающий список) -->
+            <div class="mb-3">
+                <label for="{{ form.status.id_for_label }}" class="form-label">
+                    Статус <span class="text-danger">*</span>
+                </label>
+                {{ form.status }}
+                <small class="form-text text-muted">
+                    Выберите: Бизнес, Личное, Налог или другой статус
+                </small>
+            </div>
+            
+            <!-- Тип операции (выпадающий список) -->
+            <div class="mb-3">
+                <label for="{{ form.type.id_for_label }}" class="form-label">
+                    Тип операции <span class="text-danger">*</span>
+                </label>
+                {{ form.type }}
+                <small class="form-text text-muted">
+                    Выберите: Пополнение или Списание
+                </small>
+            </div>
+            
+            <!-- Категория (выпадающий список) -->
+            <div class="mb-3">
+                <label for="{{ form.category.id_for_label }}" class="form-label">
+                    Категория <span class="text-danger">*</span>
+                </label>
+                {{ form.category }}
+                <small class="form-text text-muted">
+                    Пример: Инфраструктура, Маркетинг и др.
+                </small>
+            </div>
+            
+            <!-- Подкатегория (выпадающий список) -->
+            <div class="mb-3">
+                <label for="{{ form.subcategory.id_for_label }}" class="form-label">
+                    Подкатегория <span class="text-danger">*</span>
+                </label>
+                {{ form.subcategory }}
+                <small class="form-text text-muted">
+                    Пример: VPS, Proxy (для Инфраструктуры) или Farpost, Avito (для Маркетинга)
+                </small>
+            </div>
+            
+            <!-- Сумма -->
+            <div class="mb-3">
+                <label for="{{ form.amount.id_for_label }}" class="form-label">
+                    Сумма (руб.) <span class="text-danger">*</span>
+                </label>
+                {{ form.amount }}
+            </div>
+            
+            <!-- Комментарий -->
+            <div class="mb-3">
+                <label for="{{ form.comment.id_for_label }}" class="form-label">
+                    Комментарий
+                </label>
+                {{ form.comment }}
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                <a href="{% url 'index' %}" class="btn btn-secondary me-md-2">
+                    <i class="bi bi-x-circle"></i> Отмена
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Сохранить
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// Динамическая загрузка подкатегорий
+document.getElementById('id_category').addEventListener('change', function() {
+    const categoryId = this.value;
+    const subcategorySelect = document.getElementById('id_subcategory');
+    
+    // Активируем поле подкатегории
+    subcategorySelect.disabled = false;
+    subcategorySelect.innerHTML = '<option value="">Выберите подкатегорию</option>';
+    
+    if (categoryId) {
+        fetch(`/api/subcategories/?category_id=${categoryId}`)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory.id;
+                    option.textContent = subcategory.name;
+                    subcategorySelect.appendChild(option);
+                });
+            });
+    }
+});
+
+// Валидация формы
+(function() {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();
+</script>
+{% endblock %}
